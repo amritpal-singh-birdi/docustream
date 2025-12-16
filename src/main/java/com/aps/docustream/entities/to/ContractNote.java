@@ -13,9 +13,11 @@ public class ContractNote implements Serializable{
 	
 	@JsonProperty
 	private ClientDetails clientDetails;
-
+	
+	@JsonProperty
 	private TradeSummary tradeSummary;
 	
+	@JsonProperty
 	private TransactionSummary transactionSummary;
 	
 	public Integer getContractCodeNum() {
@@ -38,10 +40,30 @@ public class ContractNote implements Serializable{
 		return serialVersionUID;
 	}
 
+	public TradeSummary getTradeSummary() {
+		return tradeSummary;
+	}
+
+	public void setTradeSummary(TradeSummary tradeSummary) {
+		this.tradeSummary = tradeSummary;
+	}
+	
+	
+	public TransactionSummary getTransactionSummary() {
+		return transactionSummary;
+	}
+
+	public void setTransactionSummary(TransactionSummary transactionSummary) {
+		this.transactionSummary = transactionSummary;
+	}
+
 	@Override
 	public String toString() {
-		return "ContractNote [contractCodeNum=" + contractCodeNum + ", clientDetails=" + clientDetails + "]";
+		return "ContractNote [contractCodeNum=" + contractCodeNum + ", clientDetails=" + clientDetails
+				+ ", tradeSummary=" + tradeSummary + ", transactionSummary=" + transactionSummary + "]";
 	}
+
+	
 	
 	
 	
