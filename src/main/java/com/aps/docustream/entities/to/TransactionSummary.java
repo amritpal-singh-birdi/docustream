@@ -1,6 +1,7 @@
 package com.aps.docustream.entities.to;
 
 import java.io.Serializable;
+import java.util.Vector;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,16 +10,16 @@ public class TransactionSummary implements Serializable {
 	private static final long serialVersionUID = 8321709559053729716L;
 
 	@JsonProperty
-	private TransactionDetails transactionDetail;
+	private Vector<TransactionDetails> transactionDetail;
 	
 	@JsonProperty
 	private PayoutSummary payoutSummary;
 
-	public TransactionDetails getTransactionDetail() {
+	public Vector<TransactionDetails> getTransactionDetail() {
 		return transactionDetail;
 	}
 
-	public void setTransactionDetail(TransactionDetails transactionDetail) {
+	public void setTransactionDetail(Vector<TransactionDetails> transactionDetail) {
 		this.transactionDetail = transactionDetail;
 	}
 

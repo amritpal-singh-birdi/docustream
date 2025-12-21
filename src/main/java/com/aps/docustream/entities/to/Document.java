@@ -1,4 +1,4 @@
-package com.aps.docustream.entities;
+package com.aps.docustream.entities.to;
 
 import java.io.Serializable;
 

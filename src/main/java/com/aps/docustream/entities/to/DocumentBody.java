@@ -1,8 +1,7 @@
-package com.aps.docustream.entities;
+package com.aps.docustream.entities.to;
 
 import java.io.Serializable;
 
-import com.aps.docustream.entities.to.ContractNote;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DocumentBody implements Serializable {

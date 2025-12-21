@@ -9,6 +9,11 @@ public class TransactionDetails implements Serializable{
 	private static final long serialVersionUID = 6113272241270592079L;
 
 	@JsonProperty
+	private String orderNumber;
+	
+	@JsonProperty
+	private Integer orderTime;
+	@JsonProperty
 	private Transactions transactions;
 
 	public Transactions getTransactions() {
@@ -22,12 +27,28 @@ public class TransactionDetails implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public String getOrderNumber() {
+		return orderNumber;
+	}
 
-	@Override
-	public String toString() {
-		return "TransactionDetails [transactions=" + transactions + "]";
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public Integer getOrderTime() {
+		return orderTime;
+	}
+
+	public void setOrderTime(Integer orderTime) {
+		this.orderTime = orderTime;
 	}
 	
-	
-	
+	@Override
+	public String toString() {
+		return "TransactionDetails [orderNumber=" + orderNumber + ", orderTime=" + orderTime + ", transactions="
+				+ transactions + "]";
+	}
+
+
 }

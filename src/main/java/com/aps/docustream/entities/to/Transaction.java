@@ -11,12 +11,6 @@ public class Transaction implements Serializable {
 	private static final long serialVersionUID = -3527871030049198236L;
 
 	@JsonProperty
-	private String orderNumber;
-	
-	@JsonProperty
-	private Integer orderTime;
-	
-	@JsonProperty
 	private Integer tradeNumber;
 	
 	@JsonProperty
@@ -42,22 +36,6 @@ public class Transaction implements Serializable {
 	
 	@JsonProperty
 	private BrokerageDetails brokerageDetails;
-
-	public String getOrderNumber() {
-		return orderNumber;
-	}
-
-	public void setOrderNumber(String orderNumber) {
-		this.orderNumber = orderNumber;
-	}
-
-	public Integer getOrderTime() {
-		return orderTime;
-	}
-
-	public void setOrderTime(Integer orderTime) {
-		this.orderTime = orderTime;
-	}
 
 	public Integer getTradeNumber() {
 		return tradeNumber;
@@ -137,10 +115,9 @@ public class Transaction implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Transaction [orderNumber=" + orderNumber + ", orderTime=" + orderTime + ", tradeNumber=" + tradeNumber
-				+ ", tradeTime=" + tradeTime + ", securityName=" + securityName + ", securityIsin=" + securityIsin
-				+ ", tradeType=" + tradeType + ", quantity=" + quantity + ", rate=" + rate + ", netTotal=" + netTotal
-				+ ", brokerageDetails=" + brokerageDetails + "]";
+		return "Transaction [tradeNumber=" + tradeNumber + ", tradeTime=" + tradeTime + ", securityName=" + securityName
+				+ ", securityIsin=" + securityIsin + ", tradeType=" + tradeType + ", quantity=" + quantity + ", rate="
+				+ rate + ", netTotal=" + netTotal + ", brokerageDetails=" + brokerageDetails + "]";
 	}
 	
 	

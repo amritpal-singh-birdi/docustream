@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" version="1.0">
     <xsl:output encoding="UTF-8" indent="yes" method="xml" standalone="no" omit-xml-declaration="no"/>
-    <xsl:template match="contract-note">
+    <xsl:template match="Document/documentBody/contractNote">
         <fo:root language="EN">
             <fo:layout-master-set>
-                <fo:simple-page-master master-name="master-page-layout" page-height="297mm" page-width="210mm" margin-top="25mm" margin-bottom="25mm" margin-left="25mm" margin-right="25mm">
-                    <fo:region-body margin-top="45mm" margin-bottom="20mm"/>
+                <fo:simple-page-master master-name="master-page-layout" page-height="297mm" page-width="210mm" margin-top="5mm" margin-bottom="5mm" margin-left="5mm" margin-right="5mm">
+                    <fo:region-body margin-top="45mm" margin-bottom="5mm"/>
                     <fo:region-before region-name="static-page-details" extent="40mm" display-align="before" precedence="true"/>
                 </fo:simple-page-master>
             </fo:layout-master-set>
@@ -18,14 +18,14 @@
                         <fo:table-column column-width="35%" column-number="4"/>
                         <fo:table-body>
 							<fo:table-row>
-								<fo:table-cell number-columns-spanned="1" text-align="left" padding-left="2mm">
+								<fo:table-cell number-columns-spanned="1" text-align="left" padding-left="2mm" padding-top="2mm">
 									<fo:block>Contract Code</fo:block>
 								</fo:table-cell>
-								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-right="2mm">
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-right="2mm" padding-top="2mm">
 									<fo:block>:</fo:block>
 								</fo:table-cell>
-								<fo:table-cell number-columns-spanned="2" text-align="left" padding-left="2mm">
-									<fo:block><xsl:value-of select="client-details/client-code"/></fo:block>
+								<fo:table-cell number-columns-spanned="2" text-align="right" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="clientDetails/clientCode"/></fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row>
@@ -35,8 +35,8 @@
 								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-right="2mm">
 									<fo:block>:</fo:block>
 								</fo:table-cell>
-								<fo:table-cell number-columns-spanned="2" text-align="left" padding-left="2mm">
-									<fo:block><xsl:value-of select="client-details/name"/> </fo:block>
+								<fo:table-cell number-columns-spanned="2" text-align="right" padding-left="2mm">
+									<fo:block><xsl:value-of select="clientDetails/name"/> </fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row>
@@ -46,8 +46,8 @@
 								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-right="2mm">
 									<fo:block>:</fo:block>
 								</fo:table-cell>
-								<fo:table-cell number-columns-spanned="2" text-align="left" padding-left="2mm">
-									<fo:block><xsl:value-of select="client-details/address/line-number1"/> </fo:block>
+								<fo:table-cell number-columns-spanned="2" text-align="right" padding-left="2mm">
+									<fo:block><xsl:value-of select="clientDetails/address/addressLine1"/> </fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row>
@@ -57,8 +57,8 @@
 								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-right="2mm">
 									<fo:block></fo:block>
 								</fo:table-cell>
-								<fo:table-cell number-columns-spanned="2" text-align="left" padding-left="2mm">
-									<fo:block><xsl:value-of select="client-details/address/line-number2"/> </fo:block>
+								<fo:table-cell number-columns-spanned="2" text-align="right" padding-left="2mm">
+									<fo:block><xsl:value-of select="clientDetails/address/addressLine2"/> </fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row>
@@ -68,8 +68,8 @@
 								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-right="2mm">
 									<fo:block></fo:block>
 								</fo:table-cell>
-								<fo:table-cell number-columns-spanned="2" text-align="left" padding-left="2mm">
-									<fo:block><xsl:value-of select="client-details/address/line-number3"/> </fo:block>
+								<fo:table-cell number-columns-spanned="2" text-align="right" padding-left="2mm">
+									<fo:block><xsl:value-of select="clientDetails/address/addressLine3"/> </fo:block>
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row>
@@ -79,61 +79,129 @@
 								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-right="2mm">
 									<fo:block></fo:block>
 								</fo:table-cell>
-								<fo:table-cell number-columns-spanned="2" text-align="left" padding-left="2mm">
-									<fo:block><xsl:value-of select="client-details/address/city"/>, <xsl:value-of select="client-details/address/state"/> - <xsl:value-of select="client-details/address/post-code"/>, <xsl:value-of select="client-details/address/country"/></fo:block>
+								<fo:table-cell number-columns-spanned="2" text-align="right" padding-left="2mm">
+									<fo:block><xsl:value-of select="clientDetails/address/city"/>, <xsl:value-of select="clientDetails/address/state"/> - <xsl:value-of select="clientDetails/address/postCode"/>, <xsl:value-of select="clientDetails/address/country"/></fo:block>
 								</fo:table-cell>
 							</fo:table-row>
                         </fo:table-body>
                     </fo:table>
                 </fo:static-content>
                 <fo:flow flow-name="xsl-region-body" border-collapse="collapse" reference-orientation="0">
-                    <fo:block>DETAILED REPORT CARD</fo:block>
+                    <fo:block>TRADE SUMMARY</fo:block>
                     <fo:table table-layout="fixed" width="100%" font-size="10pt" border-color="black" border-width="0.35mm" border-style="solid" text-align="center" display-align="center" space-after="5mm">
-                        <fo:table-column column-width="proportional-column-width(20)"/>
-                        <fo:table-column column-width="proportional-column-width(30)"/>
-                        <fo:table-column column-width="proportional-column-width(25)"/>
-                        <fo:table-column column-width="proportional-column-width(50)"/>
+                        <fo:table-column column-width="proportional-column-width(10)"/>
+                        <fo:table-column column-width="proportional-column-width(10)"/>
+                        <fo:table-column column-width="proportional-column-width(10)"/>
+                        <fo:table-column column-width="proportional-column-width(10)"/>
+                        <fo:table-column column-width="proportional-column-width(10)"/>
+                        <fo:table-column column-width="proportional-column-width(10)"/>
+                        <fo:table-column column-width="proportional-column-width(10)"/>
+                        <fo:table-column column-width="proportional-column-width(10)"/>
                         <fo:table-body font-size="95%">
                             <fo:table-row height="8mm">
-                                <fo:table-cell>
-                                    <fo:block>Subject Code</fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell>
-                                    <fo:block>Subject</fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell>
-                                    <fo:block>Marks Obtained</fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell>
-                                    <fo:block>Total Marks</fo:block>
-                                </fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="left" padding-left="2mm" padding-top="2mm">
+									<fo:block>Trade Date</fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block>:</fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="right" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="tradeSummary/tradeDate"/></fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="2" text-align="right" padding-left="2mm" padding-top="2mm">
+									<fo:block></fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="left" padding-left="2mm" padding-top="2mm">
+									<fo:block>Settlement Date</fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block>:</fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="right" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="tradeSummary/settlementDate"/></fo:block>
+								</fo:table-cell>
                             </fo:table-row>
-                            <xsl:for-each select="results-data/subjects/subject">
-                                <fo:table-row>
-                                    <fo:table-cell>
-                                        <fo:block>
-                                            <xsl:value-of select="id"/>
-                                        </fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell>
-                                        <fo:block>
-                                            <xsl:value-of select="name"/>
-                                        </fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell>
-                                        <fo:block>
-                                            <xsl:value-of select="secured-marks"/>
-                                        </fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell>
-                                        <fo:block>
-                                            <xsl:value-of select="total-marks"/>
-                                        </fo:block>
-                                    </fo:table-cell>
-                                </fo:table-row>
+                            <fo:table-row height="8mm">
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block>Segment</fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block>Trade Type</fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block>Trade Quantity</fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block>Market Rate</fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block>Brokerage</fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block>Stamp Tax</fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block>Other Charge</fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block>Total</fo:block>
+								</fo:table-cell>
+                            </fo:table-row>
+                            <xsl:for-each select="tradeSummary/tradeDetails/individualTrades/trade/trade">
+                                <fo:table-row height="8mm">
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="segment"/></fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="tradeType"/></fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="tradeQuantity"/></fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="marketRate"/></fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="brokerage"/></fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="stampTax"/></fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="otherCharge"/></fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="total"/></fo:block>
+								</fo:table-cell>
+                            </fo:table-row>
                             </xsl:for-each>
+                            <fo:table-row height="8mm">
+                                <fo:table-cell number-columns-spanned="2" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block>Total</fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="tradeSummary/tradeDetails/totalTrades/quantity"/></fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block></fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="tradeSummary/tradeDetails/totalTrades/totalBrokerage"/></fo:block>
+								</fo:table-cell>
+								<fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="tradeSummary/tradeDetails/totalTrades/totalStampTax"/></fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="tradeSummary/tradeDetails/totalTrades/totalOtherCharges"/></fo:block>
+								</fo:table-cell>
+                                <fo:table-cell number-columns-spanned="1" text-align="center" padding-left="2mm" padding-top="2mm">
+									<fo:block><xsl:value-of select="tradeSummary/tradeDetails/totalTrades/summaryTotal"/></fo:block>
+								</fo:table-cell>
+                            </fo:table-row>
                         </fo:table-body>
                     </fo:table>
+                    <fo:block>TRANSACTION SUMMMARY</fo:block>
+                    
                     <fo:block id="end-of-document">
                         <fo:instream-foreign-object>
                             <svg width="200mm" height="150mm" version="1.1" xmlns="http://www.w3.org/2000/svg">
