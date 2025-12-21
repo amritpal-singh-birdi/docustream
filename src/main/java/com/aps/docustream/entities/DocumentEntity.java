@@ -3,7 +3,11 @@ package com.aps.docustream.entities;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import com.aps.docustream.entities.enums.DocumentStatus;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,7 +33,8 @@ public class DocumentEntity {
 	
 	private String contentType;
 	
-	private String generationStatus;
+	@Enumerated(EnumType.STRING)
+	private DocumentStatus generationStatus;
 	
 	private LocalDateTime creationTimeStamp;
 	
@@ -83,11 +88,11 @@ public class DocumentEntity {
 		this.contentType = contentType;
 	}
 
-	public String getGenerationStatus() {
+	public DocumentStatus getGenerationStatus() {
 		return generationStatus;
 	}
 
-	public void setGenerationStatus(String generationStatus) {
+	public void setGenerationStatus(DocumentStatus generationStatus) {
 		this.generationStatus = generationStatus;
 	}
 
