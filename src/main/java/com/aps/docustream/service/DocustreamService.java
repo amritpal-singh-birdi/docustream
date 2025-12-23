@@ -5,10 +5,8 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 import com.aps.docustream.entities.DocumentEntity;
-import com.aps.docustream.entities.DocumentStatusLogEntity;
 import com.aps.docustream.entities.enums.DocumentStatus;
 import com.aps.docustream.repository.DocustreamRepository;
-import com.aps.docustream.repository.DocustreamStatusLogRepository;
 
 @Service
 public class DocustreamService {

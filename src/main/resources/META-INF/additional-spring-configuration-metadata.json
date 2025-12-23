@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "docustream.kafka.topic.document-processor",
+  "type": "java.lang.String",
+  "description": "A description for 'docustream.kafka.topic.document-processor'"
+}]}

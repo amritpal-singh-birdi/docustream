@@ -1,10 +1,13 @@
 package com.aps.docustream.controller;
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -70,7 +74,7 @@ public class DocumentController {
 		
 		String documentId = Utilites.generateDocumentId(document, request.getHeader("x-document-type"));
 		
-		docustreamService.saveDocument(documentId, request.getHeader("x-document-type"), document.getDocumentBody().getContractNote().getClientDetails().getClientCode(), DocumentStatus.RECEIVED, rawDocumentPayload);
+		docustreamService.saveDocument(documentId, request.getHeader("x-document-type"), document.getDocumentBody().getContractNote().getClientDetails().getClientCode(), DocumentStatus.ACCEPTED, rawDocumentPayload);
 		
 		docResp.setDocumentId(documentId + ".pdf");
 		docResp.setDocumentType(request.getHeader("x-document-type"));
@@ -80,7 +84,7 @@ public class DocumentController {
 		
 		
 		
-		return ResponseEntity.ok(docResp);//"Document Received. Thanks." + document.getDocumentBody().getContractNote();
+		return ResponseEntity.ok(docResp);
 	}
 	
 	@GetMapping("/getDocuments")
@@ -156,12 +160,23 @@ public class DocumentController {
 
 	@ApiResponses({@ApiResponse(responseCode = "200", description = "PDF File", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE, schema = @Schema(type = "string", format = "binary"))),@ApiResponse(responseCode = "404", description = "PDF not found")})
 	@GetMapping(value = "/documents/{id}/download", produces = MediaType.APPLICATION_PDF_VALUE)
-	public ResponseEntity<Resource> downloadPdf(@PathVariable String id){
+	public ResponseEntity<Resource> downloadPdf(@PathVariable String id, @RequestParam(required = false, defaultValue = "generated")  String type){
 		
-		Path pdfPath = Paths.get("src//main//resources//pdfDownload//" + id + ".pdf");
+		Path pdfPath = null;
+		
+		if("sample".equalsIgnoreCase(type)) {
+			
+			pdfPath = Paths.get("src//main//resources//samples//" + id + ".pdf");
+			
+		}else {
+			pdfPath = Paths.get("src//main//resources//pdfDownload//" + id + ".pdf");
+			
+		}
 		if(!Files.exists(pdfPath)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "PDF not generated or not available with name: " + id + ".pdf. Please check the name and try again.");
 		}
+		
+		
 		
 		Resource resource = new FileSystemResource(pdfPath);
 		
@@ -169,5 +184,7 @@ public class DocumentController {
 		
 		
 	}
+	
+	
 
 }
