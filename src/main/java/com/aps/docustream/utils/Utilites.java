@@ -1,6 +1,5 @@
 package com.aps.docustream.utils;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,11 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
@@ -28,14 +24,12 @@ import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.xmlgraphics.util.MimeConstants;
-import org.xml.sax.SAXException;
 
 import com.aps.docustream.entities.enums.PayloadType;
+import com.aps.docustream.entities.to.ContractNote;
 import com.aps.docustream.entities.to.Document;
 import com.aps.docustream.entities.to.DocumentPayload;
-import com.aps.docustream.exceptions.DocustreamExceptionHandling;
 import com.aps.docustream.exceptions.PayloadSerializationException;
-import com.aps.docustream.responses.DocumentResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -47,26 +41,24 @@ public class Utilites {
 		Map<PayloadType, Object> pojoMap = new HashMap<PayloadType, Object>();
 		Document document = new Document();
 		try {
-			
-			if(payloadType == PayloadType.JSON) {
+
+			if (payloadType == PayloadType.JSON) {
 				ObjectMapper objectMapper = new ObjectMapper();
 				document = objectMapper.readValue(rawDocumentPayload, Document.class);
 				pojoMap.put(PayloadType.JSON, document);
-			}else if(payloadType == PayloadType.XML) {
+			} else if (payloadType == PayloadType.XML) {
 				XmlMapper xmlMapper = new XmlMapper();
 				document = xmlMapper.readValue(rawDocumentPayload, Document.class);
 				pojoMap.put(PayloadType.XML, document);
-			}else {
+			} else {
 				pojoMap.put(PayloadType.UNKNOWN, document);
 			}
-			
-			
-		}catch(IOException e) {
-			
+
+		} catch (IOException e) {
+
 		}
-		
-		
-		return pojoMap ;
+
+		return pojoMap;
 	}
 
 	public static void sendForPDF(String xml) {
@@ -88,19 +80,20 @@ public class Utilites {
 			transformer.transform(xmlSource, result);
 
 		} catch (FileNotFoundException | FOPException | TransformerException e) {
-			
-			//DocustreamExceptionHandling exceptionHandling = new DocustreamExceptionHandling();
-			//exceptionHandling.documentGenerationException(e);			
+
+			// DocustreamExceptionHandling exceptionHandling = new
+			// DocustreamExceptionHandling();
+			// exceptionHandling.documentGenerationException(e);
 			e.printStackTrace();
 			return;
 		}
 
 	}
 
-	public static void createXML(String xml) {
+	public static void createXML(String xml, String xmlPath) {
 
 		try {
-			FileWriter fileWriter = new FileWriter("src//main//resources//xml//contractNote.xml");
+			FileWriter fileWriter = new FileWriter(xmlPath);
 			fileWriter.write(xml);
 			fileWriter.close();
 		} catch (IOException e) {
@@ -120,7 +113,8 @@ public class Utilites {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 
 		try {
-			//output = new java.io.FileOutputStream("src//main//resources//output//contractNote.pdf");
+			// output = new
+			// java.io.FileOutputStream("src//main//resources//output//contractNote.pdf");
 			Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, output);
 			TransformerFactory factory = TransformerFactory.newInstance();
 			Transformer transformer = factory.newTransformer(new StreamSource(xsltFile));
@@ -132,31 +126,31 @@ public class Utilites {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return output.toByteArray();
 
 	}
 
 	public static String generateDocumentId(DocumentPayload document) {
-		
+
 		String datePart = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
-		
+
 		String uuidPart = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-		
-		return String.format("DOC_%s_%s_%s",document.getDocumentType(),datePart,uuidPart);
-		
+
+		return String.format("DOC_%s_%s_%s", document.getDocumentType(), datePart, uuidPart);
+
 	}
-	
+
 	public static byte[] serializePayload(PayloadType type, DocumentPayload payload) {
-		
-		if(type == null) {
+
+		if (type == null) {
 			throw new PayloadSerializationException("PayloadType cannot be null");
 		}
 
-		if(payload == null) {
+		if (payload == null) {
 			throw new PayloadSerializationException("PayloadType cannot be null");
 		}
-		
+
 		try {
 			switch (type) {
 			case JSON:
@@ -166,12 +160,35 @@ public class Utilites {
 			default:
 				throw new PayloadSerializationException("Unsupported payload type: " + type);
 			}
-		}catch(JsonProcessingException e) {
+		} catch (JsonProcessingException e) {
 			throw new PayloadSerializationException("Failed to serialize payload", e);
 		}
-		
-		
-		
-		
+
 	}
+
+	public static byte[] serializePayload(PayloadType type, ContractNote payload) {
+
+		if (type == null) {
+			throw new PayloadSerializationException("PayloadType cannot be null");
+		}
+
+		if (payload == null) {
+			throw new PayloadSerializationException("PayloadType cannot be null");
+		}
+
+		try {
+			switch (type) {
+			case JSON:
+				return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsBytes(payload);
+			case XML:
+				return new XmlMapper().writerWithDefaultPrettyPrinter().writeValueAsBytes(payload);
+			default:
+				throw new PayloadSerializationException("Unsupported payload type: " + type);
+			}
+		} catch (JsonProcessingException e) {
+			throw new PayloadSerializationException("Failed to serialize payload", e);
+		}
+
+	}
+
 }

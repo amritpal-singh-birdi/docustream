@@ -45,7 +45,7 @@ public class DocustreamStatusLogService {
 		entity.setStartTime(LocalDateTime.now());
 		entity.setRemarks("Audit for Status: " + status + " started.");
 		
-		return entity;
+		return repository.save(entity);
 		
 	}
 	

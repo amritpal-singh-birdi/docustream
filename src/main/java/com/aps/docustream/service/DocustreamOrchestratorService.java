@@ -53,14 +53,13 @@ public class DocustreamOrchestratorService {
 				//payload like validating anything specific to a particular payload content
 				//Boolean process = processContractNote(payloadType, (ContractNoteWrapper) payload);
 				
-				
-				
+				ContractNoteWrapper contractNotePayload = (ContractNoteWrapper) payload;
 				//if(process) {
-					workflowService.initiate(documentId, payload.getDocumentType(), Utilites.serializePayload(payloadType, payload));
+					workflowService.initiate(documentId, payload.getDocumentType(), Utilites.serializePayload(payloadType,  contractNotePayload.getContractNote()));
 				//}
 				publisher.publishDocumentForProcessing(documentId);
 				
-				workflowService.transition(documentId, DocumentStatus.RECEIVED, DocumentStatus.PROCESSING, DocumentAuditStatus.PAYLOAD_SAVED, DocumentAuditStatus.KAFKA_PUBLISHED, "Payload for Document Type: " + payload.getDocumentType() + " with Document ID: " + documentId + " published to Kafka");
+				workflowService.transition(documentId, DocumentStatus.RECEIVED, DocumentStatus.ACCEPTED, DocumentAuditStatus.PAYLOAD_SAVED, DocumentAuditStatus.KAFKA_PUBLISHED, "Payload for Document Type: " + payload.getDocumentType() + " with Document ID: " + documentId + " published to Kafka");
 				
 				return new ContractNotesResponse(documentId, documentId + ".pdf", DocumentStatus.PROCESSING.toString(), "Document under processing");
 				
