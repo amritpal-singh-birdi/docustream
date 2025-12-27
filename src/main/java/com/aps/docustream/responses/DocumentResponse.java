@@ -1,10 +1,8 @@
 package com.aps.docustream.responses;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DocumentResponse implements Serializable {
+public class DocumentResponse extends DocustreamResponse {
 	
 	private static final long serialVersionUID = 6759660129595440968L;
 

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import com.aps.docustream.entities.enums.DocumentStatus;
+import com.aps.docustream.entities.enums.DocumentType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -24,7 +25,8 @@ public class DocumentEntity {
 	
 	private String documentId;
 	
-	private String documentType;
+	@Enumerated(EnumType.STRING)
+	private DocumentType documentType;
 	
 	private String customerCode;
 	
@@ -56,11 +58,11 @@ public class DocumentEntity {
 		this.documentId = documentId;
 	}
 
-	public String getDocumentType() {
+	public DocumentType getDocumentType() {
 		return documentType;
 	}
 
-	public void setDocumentType(String documentType) {
+	public void setDocumentType(DocumentType documentType) {
 		this.documentType = documentType;
 	}
 

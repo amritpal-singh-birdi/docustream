@@ -2,6 +2,7 @@ package com.aps.docustream.entities;
 
 import java.time.LocalDateTime;
 
+import com.aps.docustream.entities.enums.DocumentAuditStatus;
 import com.aps.docustream.entities.enums.DocumentStatus;
 
 import jakarta.persistence.Column;
@@ -25,8 +26,8 @@ public class DocumentStatusLogEntity {
 	private String documentId;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "generation_status", nullable = false)
-	private DocumentStatus generationStatus;
+	@Column(name = "document_audit_status", nullable = false)
+	private DocumentAuditStatus generationStatus;
 	
 	@Column(name = "start_time", nullable = false)
 	private LocalDateTime startTime;
@@ -53,11 +54,11 @@ public class DocumentStatusLogEntity {
 		this.documentId = documentId;
 	}
 
-	public DocumentStatus getGenerationStatus() {
+	public DocumentAuditStatus getGenerationStatus() {
 		return generationStatus;
 	}
 
-	public void setGenerationStatus(DocumentStatus generationStatus) {
+	public void setGenerationStatus(DocumentAuditStatus generationStatus) {
 		this.generationStatus = generationStatus;
 	}
 

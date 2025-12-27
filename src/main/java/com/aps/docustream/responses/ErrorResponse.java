@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ErrorResponse implements Serializable{
+public class ErrorResponse extends DocustreamResponse{
 
 	private static final long serialVersionUID = -710592192354156487L;
 
 	@JsonProperty
-	private String errorId;
+	private Integer errorId;
 	
 	@JsonProperty
 	private String errorDetails;
@@ -17,11 +17,18 @@ public class ErrorResponse implements Serializable{
 	@JsonProperty
 	private String errorException;
 
-	public String getErrorId() {
+	public ErrorResponse(Integer errorId, String errorDetails, String errorException) {
+		super();
+		this.errorId = errorId;
+		this.errorDetails = errorDetails;
+		this.errorException = errorException;
+	}
+
+	public Integer getErrorId() {
 		return errorId;
 	}
 
-	public void setErrorId(String errorId) {
+	public void setErrorId(Integer errorId) {
 		this.errorId = errorId;
 	}
 

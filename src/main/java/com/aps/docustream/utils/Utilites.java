@@ -1,5 +1,6 @@
 package com.aps.docustream.utils;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -25,10 +28,13 @@ import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.xmlgraphics.util.MimeConstants;
+import org.xml.sax.SAXException;
 
 import com.aps.docustream.entities.enums.PayloadType;
 import com.aps.docustream.entities.to.Document;
+import com.aps.docustream.entities.to.DocumentPayload;
 import com.aps.docustream.exceptions.DocustreamExceptionHandling;
+import com.aps.docustream.exceptions.PayloadSerializationException;
 import com.aps.docustream.responses.DocumentResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -83,8 +89,8 @@ public class Utilites {
 
 		} catch (FileNotFoundException | FOPException | TransformerException e) {
 			
-			DocustreamExceptionHandling exceptionHandling = new DocustreamExceptionHandling();
-			exceptionHandling.documentGenerationException(e);			
+			//DocustreamExceptionHandling exceptionHandling = new DocustreamExceptionHandling();
+			//exceptionHandling.documentGenerationException(e);			
 			e.printStackTrace();
 			return;
 		}
@@ -131,13 +137,41 @@ public class Utilites {
 
 	}
 
-	public static String generateDocumentId(Document document, String documentType) {
+	public static String generateDocumentId(DocumentPayload document) {
 		
 		String datePart = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
 		
 		String uuidPart = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 		
-		return String.format("DOC_%s_%s_%s_%s", document.getDocumentBody().getContractNote().getClientDetails().getClientCode(),documentType,datePart,uuidPart);
+		return String.format("DOC_%s_%s_%s",document.getDocumentType(),datePart,uuidPart);
+		
+	}
+	
+	public static byte[] serializePayload(PayloadType type, DocumentPayload payload) {
+		
+		if(type == null) {
+			throw new PayloadSerializationException("PayloadType cannot be null");
+		}
+
+		if(payload == null) {
+			throw new PayloadSerializationException("PayloadType cannot be null");
+		}
+		
+		try {
+			switch (type) {
+			case JSON:
+				return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsBytes(payload);
+			case XML:
+				return new XmlMapper().writerWithDefaultPrettyPrinter().writeValueAsBytes(payload);
+			default:
+				throw new PayloadSerializationException("Unsupported payload type: " + type);
+			}
+		}catch(JsonProcessingException e) {
+			throw new PayloadSerializationException("Failed to serialize payload", e);
+		}
+		
+		
+		
 		
 	}
 }

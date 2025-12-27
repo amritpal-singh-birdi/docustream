@@ -7,10 +7,14 @@ import java.nio.charset.StandardCharsets;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.http.MediaType;
 import org.xml.sax.SAXException;
 
 import com.aps.docustream.entities.enums.PayloadType;
+import com.aps.docustream.utils.Utilites;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 public class PayloadTypeDetector {
 
@@ -35,8 +39,7 @@ public class PayloadTypeDetector {
 		return PayloadType.UNKNOWN;
 	}
 	
-	
-	private static boolean isValidJson(byte[] payload) {
+	public static boolean isValidJson(byte[] payload) {
 		
 		try {
 			new ObjectMapper().readTree(payload);
@@ -46,7 +49,7 @@ public class PayloadTypeDetector {
 		}
 	}
 	
-	private static boolean isValidXml(byte[] payload) {
+	public static boolean isValidXml(byte[] payload) {
 		
 		try {
 			DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(payload));
@@ -56,5 +59,17 @@ public class PayloadTypeDetector {
 		}
 	}
 	
-	
+	public static PayloadType checkPayloadType(HttpServletRequest request) {
+		
+		switch (request.getContentType()) {
+		case MediaType.APPLICATION_XML_VALUE:
+			return PayloadType.XML;
+		case MediaType.APPLICATION_JSON_VALUE:
+			return PayloadType.JSON;
+		default:
+			return PayloadType.UNKNOWN;
+		}
+		
+		
+	}
 }

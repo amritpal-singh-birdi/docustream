@@ -1,13 +1,9 @@
 package com.aps.docustream.controller;
 
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -27,11 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.aps.docustream.entities.enums.DocumentStatus;
 import com.aps.docustream.entities.enums.FileType;
 import com.aps.docustream.entities.enums.PayloadType;
 import com.aps.docustream.entities.to.Document;
 import com.aps.docustream.responses.DocumentResponse;
+import com.aps.docustream.responses.DocustreamResponse;
+import com.aps.docustream.service.DocustreamOrchestratorService;
 import com.aps.docustream.service.DocustreamService;
 import com.aps.docustream.utils.Utilites;
 import com.aps.docustream.validators.FileTypeDetector;
@@ -50,39 +47,19 @@ public class DocumentController {
 	@Autowired
 	private DocustreamService docustreamService;
 	
+	private final DocustreamOrchestratorService orchestrator;
 	
-	
+	public DocumentController(DocustreamService docustreamService, DocustreamOrchestratorService orchestrator) {
+		this.docustreamService = docustreamService;
+		this.orchestrator = orchestrator;
+	}
+
 	@ApiResponses({@ApiResponse(responseCode = "200", description = "Document created", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = com.aps.docustream.responses.DocumentResponse.class))),@ApiResponse(responseCode = "400", description = "Technical Exception", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = com.aps.docustream.responses.ErrorResponse.class)))})
-	@PostMapping(path = "/createDocuments", consumes = {"application/json","application/xml"},produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE}, headers = {"x-document-type"})
-	public ResponseEntity<DocumentResponse> createDocuments(@RequestHeader("x-document-type") @Pattern(regexp = "\\d+", message = "x-document-type must be numeric") String documentType ,@RequestBody byte[] rawDocumentPayload, HttpServletRequest request) {
+	@PostMapping(path = "/createDocuments", consumes = {"application/json","application/xml"},produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+	public ResponseEntity<DocustreamResponse> createDocuments(@RequestBody Document document, HttpServletRequest request) {
 		
-		Document document = new Document();
-		DocumentResponse docResp = new DocumentResponse();
-		
-		PayloadType payloadType = PayloadTypeDetector.checkAndValidatePayloadType(rawDocumentPayload);
-		
-		if(payloadType == PayloadType.UNKNOWN) {
-			return ResponseEntity.badRequest().body(docResp);
-		}else if(payloadType == PayloadType.JSON) {
-			document = (Document) Utilites.convertToJavaObjects(rawDocumentPayload, PayloadType.JSON).get(PayloadType.JSON);
-		}else if(payloadType == PayloadType.XML) {
-			document = (Document) Utilites.convertToJavaObjects(rawDocumentPayload, PayloadType.XML).get(PayloadType.XML);
-		}else {
-			docResp.setMessage("Document couldn't be processed.");
-			return ResponseEntity.badRequest().body(docResp);
-		}
-		
-		String documentId = Utilites.generateDocumentId(document, request.getHeader("x-document-type"));
-		
-		docustreamService.saveDocument(documentId, request.getHeader("x-document-type"), document.getDocumentBody().getContractNote().getClientDetails().getClientCode(), DocumentStatus.ACCEPTED, rawDocumentPayload);
-		
-		docResp.setDocumentId(documentId + ".pdf");
-		docResp.setDocumentType(request.getHeader("x-document-type"));
-		docResp.setDocumentGenerationDate(LocalDateTime.now().toString());
-		docResp.setMessage("Document with Document ID: "+ documentId + " has been generated successfully!");
-		System.out.println(docResp.toString());
-		
-		
+		PayloadType payloadType = PayloadTypeDetector.checkPayloadType(request);
+		DocustreamResponse docResp = orchestrator.orchestrateCreateDocument(payloadType, document);
 		
 		return ResponseEntity.ok(docResp);
 	}
@@ -122,9 +99,9 @@ public class DocumentController {
 		}
 		
 		
-		String documentId = Utilites.generateDocumentId(document, request.getHeader("x-document-type"));
+		//String documentId = Utilites.generateDocumentId(document, request.getHeader("x-document-type"));
 		
-		docustreamService.saveDocument(documentId, request.getHeader("x-document-type"), document.getDocumentBody().getContractNote().getClientDetails().getClientCode(),DocumentStatus.RECEIVED, rawDocumentPayload);
+		//docustreamService.saveDocument(documentId, request.getHeader("x-document-type"), document.getDocumentBody().getContractNote().getClientDetails().getClientCode(),DocumentStatus.RECEIVED, rawDocumentPayload);
 		
 		
 		
@@ -155,7 +132,7 @@ public class DocumentController {
 		
 		
 		
-		return ResponseEntity.ok("XML Uploaded. Document Generated ID: " + documentId);
+		return ResponseEntity.ok("XML Uploaded. Document Generated ID: " + "");
 	}
 
 	@ApiResponses({@ApiResponse(responseCode = "200", description = "PDF File", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE, schema = @Schema(type = "string", format = "binary"))),@ApiResponse(responseCode = "404", description = "PDF not found")})

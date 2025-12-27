@@ -2,9 +2,13 @@ package com.aps.docustream.entities.to;
 
 import java.io.Serializable;
 
+import com.aps.docustream.entities.enums.DocumentType;
+import com.aps.docustream.entities.enums.PayloadType;
+import com.aps.docustream.utils.Utilites;
+import com.aps.docustream.validators.PayloadTypeDetector;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ContractNote implements Serializable{
+public class ContractNote{
 
 	private static final long serialVersionUID = -8435333156373661867L;
 	
@@ -62,6 +66,25 @@ public class ContractNote implements Serializable{
 		return "ContractNote [contractCodeNum=" + contractCodeNum + ", clientDetails=" + clientDetails
 				+ ", tradeSummary=" + tradeSummary + ", transactionSummary=" + transactionSummary + "]";
 	}
+
+	/**@Override
+	public DocumentType getDocumentType() {
+		return DocumentType.CONTRACT_NOTE;
+	}
+
+	@Override
+	public boolean isValidPayload(DocumentPayload payload) {
+
+		PayloadType payloadType = PayloadTypeDetector.checkAndValidatePayloadType(payload.toString().getBytes());
+		
+		if(payloadType.compareTo(PayloadType.UNKNOWN) == 0) {
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
+**/
 
 	
 	
