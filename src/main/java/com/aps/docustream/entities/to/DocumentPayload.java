@@ -3,14 +3,23 @@ package com.aps.docustream.entities.to;
 import java.io.Serializable;
 
 import com.aps.docustream.entities.enums.DocumentType;
-import com.aps.docustream.entities.enums.PayloadType;
-import com.aps.docustream.entities.to.contractnote.ContractNote;
 import com.aps.docustream.wrapper.ContractNoteWrapper;
 import com.aps.docustream.wrapper.InvoiceWrapper;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import io.swagger.v3.oas.annotations.media.DiscriminatorMapping;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(
+		description = "",
+		discriminatorProperty = "type",
+		discriminatorMapping = {
+				@DiscriminatorMapping(value = "CONTRACT_NOTE", schema = ContractNoteWrapper.class),
+				@DiscriminatorMapping(value = "INVOICE", schema = InvoiceWrapper.class)
+		}
+		
+)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY,property = "type")
 @JsonSubTypes({
 	@JsonSubTypes.Type(value = ContractNoteWrapper.class, name = "CONTRACT_NOTE"),

@@ -5,6 +5,8 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class DocumentBody implements Serializable {
 	
@@ -14,6 +16,7 @@ public class DocumentBody implements Serializable {
 	private String documentBodyStream;
 	
 	@JsonProperty
+	@Schema(description = "", implementation = DocumentPayload.class)
 	private DocumentPayload payload;
 	
 	public DocumentBody() {

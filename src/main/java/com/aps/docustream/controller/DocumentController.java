@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +25,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.aps.docustream.entities.enums.FileType;
 import com.aps.docustream.entities.enums.PayloadType;
 import com.aps.docustream.entities.to.Document;
-import com.aps.docustream.responses.DocumentResponse;
 import com.aps.docustream.responses.DocustreamResponse;
 import com.aps.docustream.service.DocustreamOrchestratorService;
 import com.aps.docustream.service.DocustreamService;
@@ -34,6 +32,7 @@ import com.aps.docustream.utils.Utilites;
 import com.aps.docustream.validators.FileTypeDetector;
 import com.aps.docustream.validators.PayloadTypeDetector;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -44,23 +43,27 @@ import jakarta.validation.constraints.Pattern;
 @RestController
 public class DocumentController {
 	
-	@Autowired
-	private DocustreamService docustreamService;
 	
 	private final DocustreamOrchestratorService orchestrator;
 	
 	public DocumentController(DocustreamService docustreamService, DocustreamOrchestratorService orchestrator) {
-		this.docustreamService = docustreamService;
 		this.orchestrator = orchestrator;
 	}
 
-	@ApiResponses({@ApiResponse(responseCode = "200", description = "Document created", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = com.aps.docustream.responses.DocumentResponse.class))),@ApiResponse(responseCode = "400", description = "Technical Exception", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = com.aps.docustream.responses.ErrorResponse.class)))})
-	@PostMapping(path = "/createDocuments", consumes = {"application/json","application/xml"},produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<DocustreamResponse> createDocuments(@RequestBody Document document, HttpServletRequest request) {
-		
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", description = "Document created", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = com.aps.docustream.responses.DocumentResponse.class))),
+			@ApiResponse(responseCode = "400", description = "Technical Exception", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = com.aps.docustream.responses.ErrorResponse.class))) })
+	@PostMapping(path = "/createDocuments",
+				consumes = { "application/json", "application/xml" },
+				produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@Operation(summary = "Create document payload in DB",
+	requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) )
+	public ResponseEntity<DocustreamResponse> createDocuments(@RequestBody Document document,
+			HttpServletRequest request, @RequestParam(required = false, defaultValue = "generated") Boolean image) {
+
 		PayloadType payloadType = PayloadTypeDetector.checkPayloadType(request);
 		DocustreamResponse docResp = orchestrator.orchestrateCreateDocument(payloadType, document);
-		
+
 		return ResponseEntity.ok(docResp);
 	}
 	
