@@ -1,0 +1,39 @@
+<invoice>
+  <companyDetails>
+    <companyName>TEAM IT Solutions</companyName>
+    <address>
+      <addressLine1>143B</addressLine1>
+      <addressLine2>Murtenstrasse</addressLine2>
+      <addressLine3/>
+      <city>Bern</city>
+      <state>Bern</state>
+      <postCode>3008</postCode>
+      <country>Switzerland</country>
+    </address>
+  </companyDetails>
+  <invoiceDetails>
+    <invoiceNumber>123456789</invoiceNumber>
+    <issueDate>20251201</issueDate>
+    <dueDate>20251231</dueDate>
+    <invoiceAmount>150.0</invoiceAmount>
+    <invoiceCurrency>CHF</invoiceCurrency>
+  </invoiceDetails>
+  <items>
+    <item>
+      <description>Invoice Generation Stream</description>
+      <unitPrice>10000.0</unitPrice>
+      <unitPriceCurrency>CHF</unitPriceCurrency>
+      <quantity>2</quantity>
+      <itemAmount>20000.0</itemAmount>
+      <itemAmountCurrency>CHF</itemAmountCurrency>
+    </item>
+    <item>
+      <description>Contract Note Generation Stream</description>
+      <unitPrice>15000.0</unitPrice>
+      <unitPriceCurrency>CHF</unitPriceCurrency>
+      <quantity>2</quantity>
+      <itemAmount>30000.0</itemAmount>
+      <itemAmountCurrency>CHF</itemAmountCurrency>
+    </item>
+  </items>
+</invoice>

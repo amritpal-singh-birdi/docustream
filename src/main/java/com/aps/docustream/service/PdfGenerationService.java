@@ -53,6 +53,7 @@ public class PdfGenerationService {
 		String xmlName = "";
 		String outputName = "";
 		Class className = null;
+		String rootTag = "";
 		
 		switch (documentType){
 		case CONTRACT_NOTE:
@@ -60,16 +61,18 @@ public class PdfGenerationService {
 			xmlName = DocumentType.CONTRACT_NOTE.toString().concat(".xml");
 			outputName = DocumentType.CONTRACT_NOTE.toString().concat(".pdf");
 			className = ContractNoteWrapper.class;
+			rootTag = "contractNote";
 			break;
 		case INVOICE:
 			xslName = DocumentType.INVOICE.toString().concat(".xsl");
-			xmlName = DocumentType.CONTRACT_NOTE.toString().concat(".xml");
-			outputName = DocumentType.CONTRACT_NOTE.toString().concat(".pdf");
+			xmlName = DocumentType.INVOICE.toString().concat(".xml");
+			outputName = DocumentType.INVOICE.toString().concat(".pdf");
+			rootTag = "invoice";
 			break;
 		default:
 			xslName = DocumentType.RAW.toString().concat(".xsl");
-			xmlName = DocumentType.CONTRACT_NOTE.toString().concat(".xml");
-			outputName = DocumentType.CONTRACT_NOTE.toString().concat(".pdf");
+			xmlName = DocumentType.RAW.toString().concat(".xml");
+			outputName = DocumentType.RAW.toString().concat(".pdf");
 		}
 		
 		
@@ -78,7 +81,7 @@ public class PdfGenerationService {
 			XmlMapper xmlMapper = new XmlMapper();
 			try {
 				
-				Utilites.createXML(xmlMapper.writerWithDefaultPrettyPrinter().withRootName("contractNote").writeValueAsString(objectMapper.readTree(payload)), xmlPath.concat("//").concat(xmlName));
+				Utilites.createXML(xmlMapper.writerWithDefaultPrettyPrinter().withRootName(rootTag).writeValueAsString(objectMapper.readTree(payload)), xmlPath.concat("//").concat(xmlName));
 				generate(xmlPath.concat("//").concat(xmlName)
 						, xslPath.concat("//").concat(xslName), outputPath.concat("//").concat(outputName));
 				

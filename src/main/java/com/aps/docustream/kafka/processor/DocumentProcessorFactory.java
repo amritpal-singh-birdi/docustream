@@ -26,7 +26,7 @@ public class DocumentProcessorFactory {
 		case RESUME:
 			return new ResumeProcessor();
 		case INVOICE:
-			return new InvoiceProcessor();
+			return new InvoiceProcessor(repository, pdfGenerationService);
 		default:
 			return new RawDocumentProcessor();
 		}

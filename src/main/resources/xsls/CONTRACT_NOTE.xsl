@@ -11,7 +11,9 @@
             </fo:layout-master-set>
             <fo:page-sequence master-reference="master-page-layout">
                 <fo:static-content flow-name="static-page-details">
-                    <fo:table table-layout="fixed" width="100%" font-size="10pt" border-color="black" border-width="0.4mm" border-style="solid">
+					<fo:block border-after-style="double" border-after-width="4pt">
+						<fo:block margin-top="1mm" margin-left="2mm" margin-right="2mm" font-weight="bold" font-size="16pt">CONTRACT NOTE</fo:block>
+                    	<fo:table table-layout="fixed" width="100%" font-size="10pt" border-color="black" border-width="0.4mm" border-style="solid">
                         <fo:table-column column-width="20%" column-number="1"/>
                         <fo:table-column column-width="5%" column-number="2"/>
                         <fo:table-column column-width="40%" column-number="3"/>
@@ -85,6 +87,7 @@
 							</fo:table-row>
                         </fo:table-body>
                     </fo:table>
+               		</fo:block>
                 </fo:static-content>
                 <fo:flow flow-name="xsl-region-body" border-collapse="collapse" reference-orientation="0">
                     <fo:block>TRADE SUMMARY</fo:block>

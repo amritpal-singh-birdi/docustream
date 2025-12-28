@@ -1,0 +1,124 @@
+{
+	"Document": {
+		"documentBody": {
+			"documentBodyStream": "",
+			"payload": {
+				"type": "CONTRACT_NOTE",
+				"contractNote": {
+					"contractCodeNum": "161739383",
+					"clientDetails": {
+						"name": "AMRITPAL SINGH",
+						"address": {
+							"addressLine1": "B-XXXI, 1138 48B Street Number 2",
+							"addressLine2": "Guru Teg Bahadur Nagar",
+							"addressLine3": "Chandigarh Road",
+							"city": "Ludhiana",
+							"state": "Punjab",
+							"postCode": "141015",
+							"country": "INDIA"
+						},
+						"clientCode": "A344622",
+						"panNumber": "EGPPS6737D"
+					},
+					"tradeSummary": {
+						"tradeDate": "14012025",
+						"settlementDate": "15012025",
+						"tradeDetails": {
+							"individualTrades": {
+								"trade": [
+									{
+										"segment": "NSE",
+										"tradeType": "Buy",
+										"tradeQuantity": "2",
+										"marketRate": "6080.00",
+										"brokerage": "12.16",
+										"stampTax": "12.20",
+										"otherCharge": "4.52",
+										"total": "12188.88"
+									},
+									{
+										"segment": "NSE",
+										"tradeType": "Buy",
+										"tradeQuantity": "1",
+										"marketRate": "800.00",
+										"brokerage": "2.00",
+										"stampTax": "0.80",
+										"otherCharge": "0.51",
+										"total": "803.31"
+									}
+								]
+							},
+							"totalTrades": {
+								"quantity": "3",
+								"totalBrokerage": "14.16",
+								"totalStampTax": "13.00",
+								"totalOtherCharges": "5.03",
+								"summaryTotal": "12992.19"
+							}
+						}
+					},
+					"transactionSummary": {
+						"transactionDetail": [
+							{
+								"orderNumber": "1300000043950278",
+								"orderTime": "123120",
+								"transactions": {
+									"transaction": [
+										{
+											"tradeNumber": "605828788",
+											"tradeTime": "123146",
+											"securityName": "TATA ELXSI LIMITED",
+											"securityIsin": "INE670A01012",
+											"tradeType": "BUY",
+											"quantity": "2",
+											"rate": "6080.0000",
+											"netTotal": "12160.0000",
+											"brokerageDetails": {
+												"brokerage": "12.1600"
+											}
+										}
+									]
+								}
+							},
+							{
+								"orderNumber": "1300000044390950",
+								"orderTime": "123415",
+								"transactions": {
+									"transaction": [
+										{
+											"tradeNumber": "605829976",
+											"tradeTime": "123426",
+											"securityName": "TATA TECHNOLOGIES LIMITED",
+											"securityIsin": "INE142M01025",
+											"tradeType": "BUY",
+											"quantity": "1",
+											"rate": "800.0000",
+											"netTotal": "800.0000",
+											"brokerageDetails": {
+												"brokerage": "2.0000"
+											}
+										}
+									]
+								}
+							}
+						],
+						"payoutSummary": {
+							"exchangeSegment": "NSE-CAPITAL",
+							"grossAmount": "12974.16",
+							"securitiesTransactionTax": "13",
+							"taxableValue": "14.57",
+							"cgst": "1.31",
+							"sgst": "1.31",
+							"exchangeTransactionCharges": "0.39",
+							"sebiFees": "0.01",
+							"stampTax": "2.00",
+							"ipfCharges": "0.01",
+							"auctionOrOtherCharges": "0.00",
+							"netAmount": "12992.19"
+						}
+					}
+				}
+			}
+		}
+	}
+}

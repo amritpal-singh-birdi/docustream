@@ -76,7 +76,6 @@ public class DocumentController {
 		
 		
 		Document document = new Document();
-		DocumentResponse docResp = new DocumentResponse();
 		FileType fileType = FileTypeDetector.detectFileType(file);
 		
 		byte[] rawDocumentPayload = null;
@@ -90,7 +89,7 @@ public class DocumentController {
 			} else if (fileType == FileType.JSON) {
 				document = (Document) Utilites.convertToJavaObjects(rawDocumentPayload, PayloadType.JSON).get(PayloadType.JSON);
 			} else {
-				docResp.setMessage("Document couldn't be processed.");
+				//docResp.setMessage("Document couldn't be processed.");
 				return ResponseEntity.badRequest().body("Document File cannot be processed.");
 			}
 
@@ -145,7 +144,10 @@ public class DocumentController {
 			
 			pdfPath = Paths.get("src//main//resources//samples//" + id + ".pdf");
 			
-		}else {
+		}else if("output".equalsIgnoreCase(type)){
+			pdfPath = Paths.get("src//main//resources//output//" + id + ".pdf");
+			
+		}else{
 			pdfPath = Paths.get("src//main//resources//pdfDownload//" + id + ".pdf");
 			
 		}

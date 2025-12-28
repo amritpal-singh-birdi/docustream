@@ -1,11 +1,5 @@
-package com.aps.docustream.entities.to;
+package com.aps.docustream.entities.to.contractnote;
 
-import java.io.Serializable;
-
-import com.aps.docustream.entities.enums.DocumentType;
-import com.aps.docustream.entities.enums.PayloadType;
-import com.aps.docustream.utils.Utilites;
-import com.aps.docustream.validators.PayloadTypeDetector;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ContractNote{

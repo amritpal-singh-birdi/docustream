@@ -26,9 +26,10 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.xmlgraphics.util.MimeConstants;
 
 import com.aps.docustream.entities.enums.PayloadType;
-import com.aps.docustream.entities.to.ContractNote;
 import com.aps.docustream.entities.to.Document;
 import com.aps.docustream.entities.to.DocumentPayload;
+import com.aps.docustream.entities.to.contractnote.ContractNote;
+import com.aps.docustream.entities.to.invoice.Invoice;
 import com.aps.docustream.exceptions.PayloadSerializationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -167,6 +168,31 @@ public class Utilites {
 	}
 
 	public static byte[] serializePayload(PayloadType type, ContractNote payload) {
+
+		if (type == null) {
+			throw new PayloadSerializationException("PayloadType cannot be null");
+		}
+
+		if (payload == null) {
+			throw new PayloadSerializationException("PayloadType cannot be null");
+		}
+
+		try {
+			switch (type) {
+			case JSON:
+				return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsBytes(payload);
+			case XML:
+				return new XmlMapper().writerWithDefaultPrettyPrinter().writeValueAsBytes(payload);
+			default:
+				throw new PayloadSerializationException("Unsupported payload type: " + type);
+			}
+		} catch (JsonProcessingException e) {
+			throw new PayloadSerializationException("Failed to serialize payload", e);
+		}
+
+	}
+	
+	public static byte[] serializePayload(PayloadType type, Invoice payload) {
 
 		if (type == null) {
 			throw new PayloadSerializationException("PayloadType cannot be null");

@@ -5,15 +5,17 @@ import org.springframework.stereotype.Service;
 import com.aps.docustream.entities.enums.DocumentAuditStatus;
 import com.aps.docustream.entities.enums.DocumentStatus;
 import com.aps.docustream.entities.enums.PayloadType;
-import com.aps.docustream.entities.to.ContractNote;
 import com.aps.docustream.entities.to.Document;
 import com.aps.docustream.entities.to.DocumentPayload;
+import com.aps.docustream.entities.to.contractnote.ContractNote;
 import com.aps.docustream.kafka.producer.DocustreamEventPublisher;
 import com.aps.docustream.responses.ContractNotesResponse;
 import com.aps.docustream.responses.DocustreamResponse;
 import com.aps.docustream.responses.ErrorResponse;
+import com.aps.docustream.responses.InvoiceResponse;
 import com.aps.docustream.utils.Utilites;
 import com.aps.docustream.wrapper.ContractNoteWrapper;
+import com.aps.docustream.wrapper.InvoiceWrapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -62,6 +64,16 @@ public class DocustreamOrchestratorService {
 				workflowService.transition(documentId, DocumentStatus.RECEIVED, DocumentStatus.ACCEPTED, DocumentAuditStatus.PAYLOAD_SAVED, DocumentAuditStatus.KAFKA_PUBLISHED, "Payload for Document Type: " + payload.getDocumentType() + " with Document ID: " + documentId + " published to Kafka");
 				
 				return new ContractNotesResponse(documentId, documentId + ".pdf", DocumentStatus.PROCESSING.toString(), "Document under processing");
+				
+			}else if(payload instanceof InvoiceWrapper) {
+				documentId = Utilites.generateDocumentId((InvoiceWrapper) payload);
+				
+				InvoiceWrapper invoicePayload = (InvoiceWrapper) payload;
+				workflowService.initiate(documentId, payload.getDocumentType(), Utilites.serializePayload(payloadType,  invoicePayload.getInvoice()));
+				publisher.publishDocumentForProcessing(documentId);
+				workflowService.transition(documentId, DocumentStatus.RECEIVED, DocumentStatus.ACCEPTED, DocumentAuditStatus.PAYLOAD_SAVED, DocumentAuditStatus.KAFKA_PUBLISHED, "Payload for Document Type: " + payload.getDocumentType() + " with Document ID: " + documentId + " published to Kafka");
+				
+				return new InvoiceResponse(documentId, documentId + ".pdf", DocumentStatus.PROCESSING.toString(), "Document under processing");
 				
 			}
 			

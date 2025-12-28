@@ -1,4 +1,4 @@
-package com.aps.docustream.entities.to;
+package com.aps.docustream.entities.to.contractnote;
 
 import java.io.Serializable;
 import java.util.Vector;

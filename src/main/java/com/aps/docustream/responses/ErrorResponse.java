@@ -18,7 +18,7 @@ public class ErrorResponse extends DocustreamResponse{
 	private String errorException;
 
 	public ErrorResponse(Integer errorId, String errorDetails, String errorException) {
-		super();
+		super("", "", "", "");
 		this.errorId = errorId;
 		this.errorDetails = errorDetails;
 		this.errorException = errorException;

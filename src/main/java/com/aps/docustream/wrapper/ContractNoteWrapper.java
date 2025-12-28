@@ -2,8 +2,8 @@ package com.aps.docustream.wrapper;
 
 import com.aps.docustream.entities.enums.DocumentType;
 import com.aps.docustream.entities.enums.PayloadType;
-import com.aps.docustream.entities.to.ContractNote;
 import com.aps.docustream.entities.to.DocumentPayload;
+import com.aps.docustream.entities.to.contractnote.ContractNote;
 import com.aps.docustream.validators.PayloadTypeDetector;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

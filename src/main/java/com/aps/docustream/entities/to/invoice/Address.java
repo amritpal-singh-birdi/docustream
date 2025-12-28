@@ -1,13 +1,13 @@
-package com.aps.docustream.entities.to;
+package com.aps.docustream.entities.to.invoice;
 
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AddressDetails implements Serializable{
+public class Address implements Serializable {
 
-	private static final long serialVersionUID = -4211113376237329224L;
-	
+	private static final long serialVersionUID = -8857867589634777856L;
+
 	@JsonProperty
 	private String addressLine1;
 	
@@ -85,13 +85,16 @@ public class AddressDetails implements Serializable{
 		this.country = country;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
-		return "AddressDetails [addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", addressLine3="
+		return "Address [addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", addressLine3="
 				+ addressLine3 + ", city=" + city + ", state=" + state + ", postCode=" + postCode + ", country="
 				+ country + "]";
 	}
 	
 	
-
 }
