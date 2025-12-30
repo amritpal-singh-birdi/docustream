@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.aps.docustream.entities.enums.DocumentAuditStatus;
 import com.aps.docustream.entities.enums.DocumentStatus;
 import com.aps.docustream.entities.enums.DocumentType;
+import com.aps.docustream.entities.enums.RendererType;
 
 import jakarta.transaction.Transactional;
 
@@ -24,10 +25,10 @@ public class DocustreamWorkflowService {
 	}
 
 	@Transactional
-	public void initiate(String documentId, DocumentType documentType, byte[] payload) {
+	public void initiate(String documentId, DocumentType documentType,RendererType renderer, byte[] payload) {
 		
 
-		docustreamService.saveDocument(documentId, documentType, "Raw Payload of Docyment Type " + documentType.toString() + " saved in database", DocumentStatus.RECEIVED, payload);
+		docustreamService.saveDocument(documentId, documentType, renderer, "Raw Payload of Docyment Type " + documentType.toString() + " saved in database", DocumentStatus.RECEIVED, payload);
 		
 		docustreamStatusLogService.startAudit(documentId, DocumentAuditStatus.PAYLOAD_SAVED, "Raw Payload of Docyment Type " + documentType.toString() + " saved in database");
 		

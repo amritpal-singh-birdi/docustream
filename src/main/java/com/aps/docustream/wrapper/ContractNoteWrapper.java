@@ -14,10 +14,6 @@ public class ContractNoteWrapper extends DocumentPayload{
 	@JsonProperty
 	private ContractNote contractNote;
 	
-	public ContractNoteWrapper(ContractNote contractNote) {
-		this.contractNote = contractNote;
-	}
-	
 	public ContractNote getContractNote() {
 		return contractNote;
 	}

@@ -35,4 +35,17 @@ public class InvoiceWrapper extends DocumentPayload {
 		return false;
 	}
 
+	@Override
+	public String getVersion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String toString() {
+		return "InvoiceWrapper [invoice=" + invoice + "]";
+	}
+	
+	
+
 }

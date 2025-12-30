@@ -2,7 +2,9 @@
 	"Document": {
 		"documentBody": {
 			"payload": {
+				"version": "v1",
 				"type": "INVOICE",
+				"renderer": "HTML_CSS",
 				"invoice": {
 					"companyDetails": {
 						"companyName": "TEAM IT Solutions",

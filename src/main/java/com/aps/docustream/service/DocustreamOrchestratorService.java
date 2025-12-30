@@ -57,7 +57,7 @@ public class DocustreamOrchestratorService {
 				
 				ContractNoteWrapper contractNotePayload = (ContractNoteWrapper) payload;
 				//if(process) {
-					workflowService.initiate(documentId, payload.getDocumentType(), Utilites.serializePayload(payloadType,  contractNotePayload.getContractNote()));
+					workflowService.initiate(documentId, payload.getDocumentType(), payload.getPreferredRenderer(), Utilites.serializePayload(payloadType,  contractNotePayload.getContractNote()));
 				//}
 				publisher.publishDocumentForProcessing(documentId);
 				
@@ -69,7 +69,7 @@ public class DocustreamOrchestratorService {
 				documentId = Utilites.generateDocumentId((InvoiceWrapper) payload);
 				
 				InvoiceWrapper invoicePayload = (InvoiceWrapper) payload;
-				workflowService.initiate(documentId, payload.getDocumentType(), Utilites.serializePayload(payloadType,  invoicePayload.getInvoice()));
+				workflowService.initiate(documentId, payload.getDocumentType(), payload.getPreferredRenderer(), Utilites.serializePayload(payloadType,  invoicePayload.getInvoice()));
 				publisher.publishDocumentForProcessing(documentId);
 				workflowService.transition(documentId, DocumentStatus.RECEIVED, DocumentStatus.ACCEPTED, DocumentAuditStatus.PAYLOAD_SAVED, DocumentAuditStatus.KAFKA_PUBLISHED, "Payload for Document Type: " + payload.getDocumentType() + " with Document ID: " + documentId + " published to Kafka");
 				

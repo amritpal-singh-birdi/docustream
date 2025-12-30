@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import com.aps.docustream.entities.enums.DocumentStatus;
 import com.aps.docustream.entities.enums.DocumentType;
+import com.aps.docustream.entities.enums.RendererType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -34,6 +35,9 @@ public class DocumentEntity {
 	private byte[] payload;
 	
 	private String contentType;
+	
+	@Enumerated(EnumType.STRING)
+	private RendererType renderer;
 	
 	@Enumerated(EnumType.STRING)
 	private DocumentStatus generationStatus;
@@ -113,13 +117,21 @@ public class DocumentEntity {
 	public void setModificationTimeStamp(LocalDateTime modificationTimeStamp) {
 		this.modificationTimeStamp = modificationTimeStamp;
 	}
+	
+	public RendererType getRenderer() {
+		return renderer;
+	}
+
+	public void setRenderer(RendererType renderer) {
+		this.renderer = renderer;
+	}
 
 	@Override
 	public String toString() {
 		return "DocumentEntity [Id=" + Id + ", documentId=" + documentId + ", documentType=" + documentType
 				+ ", customerCode=" + customerCode + ", payload=" + Arrays.toString(payload) + ", contentType="
-				+ contentType + ", generationStatus=" + generationStatus + ", creationTimeStamp=" + creationTimeStamp
-				+ ", modificationTimeStamp=" + modificationTimeStamp + "]";
+				+ contentType + ", renderer=" + renderer + ", generationStatus=" + generationStatus
+				+ ", creationTimeStamp=" + creationTimeStamp + ", modificationTimeStamp=" + modificationTimeStamp + "]";
 	}
 	
 	

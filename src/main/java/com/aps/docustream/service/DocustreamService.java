@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.aps.docustream.entities.DocumentEntity;
 import com.aps.docustream.entities.enums.DocumentStatus;
 import com.aps.docustream.entities.enums.DocumentType;
+import com.aps.docustream.entities.enums.RendererType;
 import com.aps.docustream.repository.DocustreamRepository;
 
 @Service
@@ -20,10 +21,11 @@ public class DocustreamService {
 
 
 
-	public DocumentEntity saveDocument(String documentId, DocumentType documentType, String customerCode, DocumentStatus documentStatus, byte[] payload) {
+	public DocumentEntity saveDocument(String documentId, DocumentType documentType, RendererType renderer, String customerCode, DocumentStatus documentStatus, byte[] payload) {
 		DocumentEntity entity = new DocumentEntity();
 		entity.setDocumentId(documentId);
 		entity.setDocumentType(documentType);
+		entity.setRenderer(renderer);
 		entity.setCustomerCode(customerCode);
 		entity.setGenerationStatus(documentStatus);
 		entity.setPayload(payload);

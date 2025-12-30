@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Document implements Serializable {
 
 	private static final long serialVersionUID = -8231580382491189693L;
+	
 	@JsonProperty
 	private DocumentBody documentBody;
 	
