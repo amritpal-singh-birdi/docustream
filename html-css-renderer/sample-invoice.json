@@ -1,0 +1,40 @@
+{
+					"companyDetails": {
+						"companyName": "TEAM IT Solutions",
+						"address": {
+							"addressLine1": "143B",
+							"addressLine2": "Murtenstrasse",
+							"city": "Bern",
+							"state": "Bern",
+							"postCode": "3008",
+							"country": "Switzerland"
+						}
+					},
+					"invoiceDetails": {
+						"invoiceNumber": 123456789,
+						"issueDate": 20251201,
+						"dueDate": 20251231,
+						"invoiceAmount": "150.00",
+						"invoiceCurrency": "CHF"
+					},
+					"items": {
+						"item": [
+							{
+								"description": "Invoice Generation Stream",
+								"unitPrice": "10000.00",
+								"unitPriceCurrency": "CHF",
+								"quantity": 2,
+								"itemAmount": "20000.00",
+								"itemAmountCurrency": "CHF"
+							},
+							{
+								"description": "Contract Note Generation Stream",
+								"unitPrice": "15000.00",
+								"unitPriceCurrency": "CHF",
+								"quantity": 2,
+								"itemAmount": "30000.00",
+								"itemAmountCurrency": "CHF"
+							}
+						]
+					}
+				}

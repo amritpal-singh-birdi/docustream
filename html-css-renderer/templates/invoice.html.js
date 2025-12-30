@@ -1,0 +1,244 @@
+// renderer/templates/invoice.html.js
+
+module.exports = function invoiceTemplate(invoice){
+	return `
+<!DOCTYPE html>
+<html>
+
+<head>
+	<style>
+		.page {
+			width: 210mm;
+			height: 297mm;
+			margin: 10mm;
+			padding: 5mm;
+			box-shadow: 0 0 5mm rgba(0, 0, 0, 0.2);
+			background: white;
+			box-sizing: border-box;
+			overflow: hidden;
+			position: relative;
+		}
+
+		.title {
+			font-weight: bold;
+			font-size: 16pt;
+			text-align: center;
+			border-bottom: 2pt solid black;
+			max-height: 10%;
+			flex: 0 0 auto;
+		}
+
+		.header {
+			height: 80mm;
+			display: flex;
+			flex-direction: column;
+			border-bottom: 5pt black double;
+		}
+
+		.header-container {
+			display: flex;
+			gap: 2mm;
+			max-height: 90%;
+			flex: 1;
+			box-sizing: border-box;
+		}
+
+		.header-sub-left {
+			flex: 1;
+			padding: 2mm;
+			width: 50%;
+			max-height: 100%;
+			display: flex;
+			align-items: flex-end;
+			justify-content: flex-start;
+		}
+
+		.header-sub-right {
+			flex: 1;
+			padding: 0;
+			width: 50%;
+			max-height: 100%;
+			display: flex;
+			align-items: flex-end;
+			justify-content: flex-start;
+			overflow: hidden;
+		}
+		
+		.header-image{
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.company-address {
+			padding: 2mm;
+		}
+		
+		.invoice-meta-table{
+			display: flex;
+			margin: 2mm;
+			max-height: 90%;
+			flex: 1;
+			box-sizing: border-box;
+			background-color: gray;
+			margin-bottom: 12mm;
+		}
+		
+		.invoice-meta-sub-table{
+			flex: 1;
+			padding: 1mm;
+			width: 25%;
+			max-height: 100%;
+			align-items: flex-end;
+			justify-content: flex-start;
+		}
+		
+		.invoice-meta-sub-table-1{
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: flex-start;
+			font-weight: bold;
+			font-size: 14pt;
+		}
+		
+		.invoice-meta-sub-table-2{
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: flex-start;
+			font-size: 14pt;
+		}
+		
+		.main{
+			margin-top: 2mm;
+			border: 2pt solid black;
+			box-sizing: border-box;
+		}
+		
+		.items-meta-table{
+			display: flex;
+			margin: 2mm;
+			max-height: 90%;
+			box-sizing: border-box;
+			border-bottom: 2mm solid black;
+		}
+		
+		.items-meta-sub-table{
+			display: flex;
+			flex: 1;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 2mm;
+			padding: 2mm;
+			font-size: 14pt;
+			padding-bottom: 0;
+		}
+		
+		.items-meta-sub-table-1{
+			display: flex;
+			flex-direction: column;
+			font-weight: bold;
+			font-size: 14pt;
+		}
+		
+		.items-table{
+			display: flex;
+			margin: 2mm;
+			max-height: 90%;
+			box-sizing: border-box;
+		}
+		
+		.items-sub-table{
+			display: flex;
+			flex: 1;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 2mm;
+			padding: 2mm;
+			font-size: 14pt;
+			padding-bottom: 0;
+		}
+		
+	</style>
+	<title>INVOICE</title>
+</head>
+
+<body>
+	<div class="page">
+		<header class="header">
+			<div class="title">INVOICE</div>
+			<div class="header-container">
+				<div class="header-sub-left">
+					<table>
+						<tr>
+							<td>TEAM IT Solutions: 143B Murtenstrasse 3008 Bern</td>
+						</tr>
+					</table>
+				</div>
+				<div class="header-sub-right">
+					<img class="header-image" src="SampleImage.png"/>
+				</div>
+			</div>
+		</header>
+		<main class="main">
+			<!-- Invoice Meta Data-->
+			<div class="invoice-meta-table">
+				<div class="invoice-meta-sub-table">
+					<div class="invoice-meta-sub-table-1">Invoice Number</div>
+					<div class="invoice-meta-sub-table-2">123456789</div>
+				</div>
+				<div class="invoice-meta-sub-table">
+					<div class="invoice-meta-sub-table-1">Issue Date</div>
+					<div class="invoice-meta-sub-table-2">01.12.2025</div>
+				</div>
+				<div class="invoice-meta-sub-table">
+					<div class="invoice-meta-sub-table-1">Due Date</div>
+					<div class="invoice-meta-sub-table-2">31.12.2025</div>
+				</div>
+				<div class="invoice-meta-sub-table">
+					<div class="invoice-meta-sub-table-1">Invoice Amount</div>
+					<div class="invoice-meta-sub-table-2">CHF 150</div>
+				</div>
+			</div>
+			
+			<div class="items-meta-table">
+				<div class="items-meta-sub-table">
+					<div class="items-meta-sub-table-1">Description</div>
+				</div>
+				<div class="items-meta-sub-table">
+					<div class="items-meta-sub-table-1">Unit Price</div>
+				</div>
+				<div class="items-meta-sub-table">
+					<div class="items-meta-sub-table-1">Quantity</div>
+				</div>
+				<div class="items-meta-sub-table">
+					<div class="items-meta-sub-table-1">Amount</div>
+				</div>
+			</div>
+			
+			<div class="items-table">
+				<div class="items-sub-table">
+					<div class="items-sub-table-1">Consulting Service</div>
+				</div>
+				<div class="items-sub-table">
+					<div class="items-sub-table-1">CHF 50</div>
+				</div>
+				<div class="items-sub-table">
+					<div class="items-sub-table-1">3</div>
+				</div>
+				<div class="items-sub-table">
+					<div class="items-sub-table-1">CHF 150</div>
+				</div>
+			</div>
+			
+			
+			
+			
+		</main>
+	</div>
+</body>
+
+</html>`;
+
+};
