@@ -8,6 +8,7 @@ public class DocustreamApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DocustreamApplication.class, args);
+		
 	}
 
 }

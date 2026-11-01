@@ -14,11 +14,14 @@ import com.aps.docustream.validators.PayloadTypeDetector;
 
 @Component
 public class HtmlCssDocumentRenderer implements DocumentRenderer{
+	
+	private final HtmlRenderClient htmlRenderClient;
 
 	private final PdfGenerationService pdfGenerationService;
 
-	public HtmlCssDocumentRenderer(PdfGenerationService pdfGenerationService) {
+	public HtmlCssDocumentRenderer(HtmlRenderClient htmlRenderClient, PdfGenerationService pdfGenerationService) {
 		super();
+		this.htmlRenderClient = htmlRenderClient;
 		this.pdfGenerationService = pdfGenerationService;
 	}
 

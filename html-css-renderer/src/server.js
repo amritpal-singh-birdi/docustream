@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 
 app.post('/generate-pdf', async (req, res) => {
     const invoice = req.body;
-    const outputPath = path.join(__dirname, '..', 'output', `invoice-${invoice.invoiceNumber}.pdf`);
+    const outputPath = path.join(__dirname, '..', 'output', `invoice-${invoice.invoiceDetails.invoiceNumber}.pdf`);
 
     try {
         await generateInvoicePDF(invoice, outputPath);

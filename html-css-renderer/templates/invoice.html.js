@@ -1,12 +1,35 @@
 // renderer/templates/invoice.html.js
 
 module.exports = function invoiceTemplate(invoice){
+	
+	const company = invoice.companyDetails;
+	const invoiceDetails = invoice.invoiceDetails;
+	const items = invoice.items.item;
+	
+	const formatDate = (yyyymmdd)=>{
+		const s = yyyymmdd.toString();
+		return `${s.slice(6,8)}.${s.slice(4,6)}.${s.slice(0,4)}`;
+	}
+	
 	return `
 <!DOCTYPE html>
 <html>
 
 <head>
 	<style>
+		html,body{
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			background: gray;
+		}
+		body{
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			padding: 30px 0;
+		}
 		.page {
 			width: 210mm;
 			height: 297mm;
@@ -18,6 +41,21 @@ module.exports = function invoiceTemplate(invoice){
 			overflow: hidden;
 			position: relative;
 		}
+		
+		@media print{
+			html,body {
+				background: white;
+				display: block;
+				padding: 0;
+			}
+			
+			.page{
+				box-shadow: none;
+				margin: 0;
+				width: auto;
+				height: auto;
+			}
+		}
 
 		.title {
 			font-weight: bold;
@@ -27,12 +65,34 @@ module.exports = function invoiceTemplate(invoice){
 			max-height: 10%;
 			flex: 0 0 auto;
 		}
+		
+		.main{
+			margin-top: 2mm;
+			border: 2pt solid black;
+			box-sizing: border-box;
+			margin-bottom: 125mm;
+		}
 
 		.header {
 			height: 80mm;
 			display: flex;
 			flex-direction: column;
 			border-bottom: 5pt black double;
+		}
+		
+		.footer {
+			position: absolute;
+			height: 2.5mm;
+			bottom: 5mm;
+			left: 5mm;
+			right: 5mm;
+			border-top: 5pt dimgrey solid;
+		}
+		
+		.footer-text{
+			font-size: 12pt;
+			font-style: italic;
+			font-family: 'Times New Roman', Times, serif;
 		}
 
 		.header-container {
@@ -110,12 +170,6 @@ module.exports = function invoiceTemplate(invoice){
 			font-size: 14pt;
 		}
 		
-		.main{
-			margin-top: 2mm;
-			border: 2pt solid black;
-			box-sizing: border-box;
-		}
-		
 		.items-meta-table{
 			display: flex;
 			margin: 2mm;
@@ -172,7 +226,7 @@ module.exports = function invoiceTemplate(invoice){
 				<div class="header-sub-left">
 					<table>
 						<tr>
-							<td>TEAM IT Solutions: 143B Murtenstrasse 3008 Bern</td>
+							<td>${company.companyName}: ${company.address.addressLine1} ${company.address.addressLine2} ${company.address.postCode} ${company.address.state}</td>
 						</tr>
 					</table>
 				</div>
@@ -186,19 +240,19 @@ module.exports = function invoiceTemplate(invoice){
 			<div class="invoice-meta-table">
 				<div class="invoice-meta-sub-table">
 					<div class="invoice-meta-sub-table-1">Invoice Number</div>
-					<div class="invoice-meta-sub-table-2">123456789</div>
+					<div class="invoice-meta-sub-table-2">${invoiceDetails.invoiceNumber}</div>
 				</div>
 				<div class="invoice-meta-sub-table">
 					<div class="invoice-meta-sub-table-1">Issue Date</div>
-					<div class="invoice-meta-sub-table-2">01.12.2025</div>
+					<div class="invoice-meta-sub-table-2">${formatDate(invoiceDetails.issueDate)}</div>
 				</div>
 				<div class="invoice-meta-sub-table">
 					<div class="invoice-meta-sub-table-1">Due Date</div>
-					<div class="invoice-meta-sub-table-2">31.12.2025</div>
+					<div class="invoice-meta-sub-table-2">${formatDate(invoiceDetails.dueDate)}</div>
 				</div>
 				<div class="invoice-meta-sub-table">
 					<div class="invoice-meta-sub-table-1">Invoice Amount</div>
-					<div class="invoice-meta-sub-table-2">CHF 150</div>
+					<div class="invoice-meta-sub-table-2">${invoiceDetails.invoiceCurrency} ${invoiceDetails.invoiceAmount}</div>
 				</div>
 			</div>
 			
@@ -217,25 +271,29 @@ module.exports = function invoiceTemplate(invoice){
 				</div>
 			</div>
 			
+			${items.map(item => `
 			<div class="items-table">
 				<div class="items-sub-table">
-					<div class="items-sub-table-1">Consulting Service</div>
+					<div class="items-sub-table-1">${item.description}</div>
 				</div>
 				<div class="items-sub-table">
-					<div class="items-sub-table-1">CHF 50</div>
+					<div class="items-sub-table-1">${item.unitPriceCurrency} ${item.unitPrice}</div>
 				</div>
 				<div class="items-sub-table">
-					<div class="items-sub-table-1">3</div>
+					<div class="items-sub-table-1">${item.quantity}</div>
 				</div>
 				<div class="items-sub-table">
-					<div class="items-sub-table-1">CHF 150</div>
+					<div class="items-sub-table-1">${item.itemAmountCurrency} ${item.itemAmount}</div>
 				</div>
 			</div>
-			
+			`).join('')}
 			
 			
 			
 		</main>
+		<footer class="footer">
+			<div class="footer-text">&COPY; of TEAM IT Solutions.</div>
+		</footer>
 	</div>
 </body>
 
